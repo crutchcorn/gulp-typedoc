@@ -14,7 +14,7 @@ const options: gulpTypedoc.Options = {
   theme: "default",
   name: "Test types",
   readme: "./README.md",
-  plugins: ["foo", "bar"],
+  plugin: ["foo", "bar"],
   hideGenerator: false,
   gaID: "123",
   gaSite: "auto",

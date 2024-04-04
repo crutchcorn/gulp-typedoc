@@ -35,7 +35,12 @@ function typedoc(options) {
 			const version = opts.version;
 
 			// typedoc instance
-			const app = await typedocModule.Application.bootstrap({ ...opts, entryPoints: files });
+			let app;
+			if (opts.plugin) {
+				app = await typedocModule.Application.bootstrapWithPlugins({ ...opts, entryPoints: files });
+			} else {
+				app = await typedocModule.Application.bootstrap({ ...opts, entryPoints: files });
+			}
 			if (semver.gte(typedocModule.Application.VERSION, '0.25.0')) {
 				app.options.addReader(new typedocModule.TSConfigReader());
 				app.options.addReader(new typedocModule.TypeDocReader());

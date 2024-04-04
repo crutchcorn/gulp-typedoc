@@ -79,7 +79,7 @@ declare namespace gulpTypedoc {
     /**
      * Specify the npm plugins that should be loaded.
      */
-    plugins?: string[];
+    plugin?: string[] | string;
 
     /**
      * Do not print the TypeDoc link at the end of the page.

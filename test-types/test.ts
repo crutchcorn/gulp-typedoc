@@ -24,7 +24,7 @@ const options: gulpTypedoc.Options = {
   includeDeclarations: true,
   verbose: true,
   version: true,
-  logger: "none",
+  logLevel: "none",
 };
 
 const result: NodeJS.ReadWriteStream = gulpTypedoc(options);

@@ -127,13 +127,13 @@ describe("gulp-typedoc", function() {
 		expect(stdout).to.contain("Using TypeScript");
 	});
 
-	it("should disable typedoc logging when logger 'none' specified", async () => {
+	it("should disable typedoc logging when logLevel 'none' specified", async () => {
 		const g = gulpfile({
 			version: true,
 			out: "./out/html/",
 			json: "./test.json",
 			name: "gulp-typedoc-test",
-			logger: "none",
+			logLevel: "None",
 			excludeExternals: true,
 		});
 		await fse.writeFile(path.join(TEST_DIR, "gulpfile.js"), g);

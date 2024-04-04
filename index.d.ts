@@ -1,6 +1,4 @@
 declare namespace gulpTypedoc {
-  type Logger = (message: string, level: number, newline: boolean) => void;
-
   /**
    * Typedoc options
    */
@@ -124,7 +122,7 @@ declare namespace gulpTypedoc {
 
     version?: boolean;
 
-    logger?: Logger | "none";
+    logLevel?: "none";
   }
 }
 

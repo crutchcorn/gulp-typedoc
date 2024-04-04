@@ -18,7 +18,7 @@ function typedoc(options) {
 
 	return es.through(function(file) {
 		files.push(file.path);
-	}, function() {
+	}, async function() {
 		// end of stream, start typedoc
 		const stream = this;
 
@@ -34,32 +34,22 @@ function typedoc(options) {
 			const json = opts.json;
 			const version = opts.version;
 
-			if (!opts.logger) {
-				// reduce console logging
-				opts.logger = function(message, level, newline) {
-					if (level === 3) {
-						log(colors.red(message));
-					}
-				};
-			}
-
 			// typedoc instance
-			const app = new typedocModule.Application();
-			if (semver.gte(typedocModule.Application.VERSION, '0.16.1')) {
+			const app = await typedocModule.Application.bootstrap({ ...opts, entryPoints: files });
+			if (semver.gte(typedocModule.Application.VERSION, '0.25.0')) {
 				app.options.addReader(new typedocModule.TSConfigReader());
 				app.options.addReader(new typedocModule.TypeDocReader());
 			}
 
-			if (version && opts.logger !== "none") {
+			if (version && opts.logLevel !== "None") {
 				log(app.toString());
 			}
 			try {
 				// Specify the entry points to be documented by TypeDoc.
-				app.bootstrap({ ...opts, entryPoints: files });
-				const project = app.convert();
+				const project = await app.convert();
 				if (project) {
-					if (out) app.generateDocs(project, out);  // TODO promisified!!
-					if (json) app.generateJson(project, json); // TODO promisified!!
+					if (out) await app.generateDocs(project, out);  // TODO promisified!!
+					if (json) await app.generateJson(project, json); // TODO promisified!!
 					if (app.logger.hasErrors()) {
 						stream.emit("error", new PluginError(PLUGIN_NAME, "There were errors generating TypeDoc output, see above."));
 						stream.emit("end");
